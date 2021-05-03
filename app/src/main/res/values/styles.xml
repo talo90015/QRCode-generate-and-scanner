@@ -6,6 +6,8 @@
         <item name="colorPrimaryDark">#084C0B</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="overlapAnchor">false</item>
+        <item name="actionMenuTextColor">#062B07</item>
+
     </style>
 
 

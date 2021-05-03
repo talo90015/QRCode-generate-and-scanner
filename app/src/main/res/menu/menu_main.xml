@@ -3,16 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/qr_generate"
-        android:title=""
+        android:title="Generate"
         android:icon="@drawable/ic_qr_code_2_black_24dp"
-        app:showAsAction="ifRoom"
-        android:visible="false"/>
+        />
     <item android:id="@+id/qr_scanner"
-        android:title=""
+        android:title="Scanner"
         android:icon="@drawable/ic_qr_code_scanner_black_24dp"
-        app:showAsAction="ifRoom"
-        android:visible="true"/>
+        />
     <item android:id="@+id/help"
         android:title="@string/help"
         app:showAsAction="never" />
+
 </menu>

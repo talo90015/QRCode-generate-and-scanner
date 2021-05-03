@@ -24,9 +24,10 @@
 
         <TextView
             android:id="@+id/unit_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/qrcode"
+            android:background="#084C0B"
             android:textColor="@android:color/white"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -55,6 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
     </androidx.viewpager.widget.ViewPager>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
