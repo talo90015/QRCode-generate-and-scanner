@@ -4,4 +4,8 @@
     <string name="hello_blank_fragment">Hello sc fragment</string>
     <string name="qrcode">QRCode</string>
     <string name="help">help</string>
+    <string name="url_example">https://www.google.com</string>
+    <string name="url">URL</string>
+    <string name="input_text">Please input URL</string>
+    <string name="output">Output</string>
 </resources>
