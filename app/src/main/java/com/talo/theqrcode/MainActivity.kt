@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         setSupportActionBar(toolbar)
 
+
         //viewPage元件設定
         //目前兩頁Fragment片段
         //需先設定adapter頁面適配器
