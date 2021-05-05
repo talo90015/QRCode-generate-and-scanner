@@ -47,7 +47,8 @@ class QRGenerateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
+        //建議不在這邊編輯
+        //呼叫onActivityCreate方法再開始編輯
         return inflater.inflate(R.layout.fragment_q_r_generate, null)
     }
 

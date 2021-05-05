@@ -29,7 +29,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         setSupportActionBar(toolbar)
 
-
+        //viewPage元件設定
+        //目前兩頁Fragment片段
+        //需先設定adapter頁面適配器
         val page = Page(supportFragmentManager)
         page.addFragment(QRGenerateFragment(), "QR_generate")
         page.addFragment(QRScannerFragment(), "QR_scanner")
@@ -74,7 +76,8 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-
+    //重新複寫Menu方法
+    //鏡像映射Icon使其能顯示
     override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
         if (menu != null) {
             if (menu.javaClass == MenuBuilder::class.java) {
