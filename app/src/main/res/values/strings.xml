@@ -8,4 +8,7 @@
     <string name="url">URL</string>
     <string name="input_text">Please input URL</string>
     <string name="output">Output</string>
+    <string name="hyperlink">
+        <a href="link"></a>
+    </string>
 </resources>
