@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.talo.theqrcode.databinding.ActivityMainBinding
+import com.talo.theqrcode.fragmentbag.QRCodeListFragment
 import com.talo.theqrcode.fragmentbag.QRGenerateFragment
 import com.talo.theqrcode.fragmentbag.QRScannerFragment
 import com.talo.theqrcode.pageAdapter.Page
@@ -36,10 +37,11 @@ class MainActivity : AppCompatActivity() {
         val page = Page(supportFragmentManager)
         page.addFragment(QRGenerateFragment(), "QR_generate")
         page.addFragment(QRScannerFragment(), "QR_scanner")
+        page.addFragment(QRCodeListFragment(), "QRCode_List")
 
         val viewPager = binding.viewPage
         viewPager.adapter = page
-        viewPager.offscreenPageLimit = 2
+        viewPager.offscreenPageLimit = 3
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
@@ -66,6 +68,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.qr_scanner -> {
                     viewPager.currentItem = 1
+                }
+                R.id.url_list ->{
+                    viewPager.currentItem = 2
                 }
             }
             false

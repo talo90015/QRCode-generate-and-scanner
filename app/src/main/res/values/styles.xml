@@ -8,6 +8,10 @@
         <item name="overlapAnchor">false</item>
         <item name="actionMenuTextColor">#062B07</item>
     </style>
+    <style name="url_input_outline" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">#19551B</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
 
 
 </resources>

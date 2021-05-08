@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -76,7 +75,10 @@ class QRScannerFragment : Fragment() {
             decodeCallback = DecodeCallback {
                 activity?.runOnUiThread {
                     txt_url.text = it.text
-                    txt_url.setOnClickListener {
+                    if (txt_url.text != ""){
+                        btn_url.visibility = View.VISIBLE
+                    }
+                    btn_url.setOnClickListener {
                         val url = Uri.parse(txt_url.text.toString())
                         val intent = Intent(Intent.ACTION_VIEW, url)
                         startActivity(intent)
@@ -125,8 +127,6 @@ class QRScannerFragment : Fragment() {
             CAMERA_REQUEST_CODE ->{
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED){
                     Toast.makeText(activity, "You need the camera permission",Toast.LENGTH_SHORT).show()
-                }else{
-
                 }
             }
         }
