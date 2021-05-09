@@ -1,9 +1,11 @@
 package com.talo.theqrcode.fragmentbag
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +20,7 @@ import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.talo.theqrcode.R
 import kotlinx.android.synthetic.main.fragment_q_r_scanner.*
+
 
 private const val CAMERA_REQUEST_CODE = 100
 
@@ -52,12 +55,12 @@ class QRScannerFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_q_r_scanner, container, false)
     }
 
+        private var savingUrl = 0
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         setUpPermissions()
         codeScanner()
-
 
     }
 
@@ -77,6 +80,15 @@ class QRScannerFragment : Fragment() {
                     txt_url.text = it.text
                     if (txt_url.text != ""){
                         btn_url.visibility = View.VISIBLE
+                        btn_add.visibility = View.VISIBLE
+
+                        btn_add.setOnClickListener {
+                            //儲存網址
+                            savingUrl++
+                            saveUrl()
+                            Toast.makeText(activity, "Saving Url", Toast.LENGTH_SHORT).show()
+                        }
+
                     }
                     btn_url.setOnClickListener {
                         val url = Uri.parse(txt_url.text.toString())
@@ -116,6 +128,38 @@ class QRScannerFragment : Fragment() {
         ActivityCompat.requestPermissions(activity!!,
             arrayOf(android.Manifest.permission.CAMERA),
             CAMERA_REQUEST_CODE)
+    }
+    private fun saveUrl(){
+        when (savingUrl) {
+            1 -> {
+                activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("url_1", txt_url.text.toString())
+                    .apply()
+            }
+            2 -> {
+                activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("url_2", txt_url.text.toString())
+                    .apply()
+            }
+            3 -> {
+                activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("url_3", txt_url.text.toString())
+                    .apply()
+            }
+            4 -> {
+                activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
+                    .edit()
+                    .putString("url_4", txt_url.text.toString())
+                    .apply()
+            }
+        }
+        activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
+            .edit()
+            .putInt("url_number", savingUrl)
+            .apply()
     }
 
     override fun onRequestPermissionsResult(

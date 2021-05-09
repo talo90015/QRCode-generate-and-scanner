@@ -1,20 +1,21 @@
 package com.talo.theqrcode.fragmentbag
 
+import android.R.attr.defaultValue
+import android.R.attr.key
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.talo.theqrcode.R
 import com.talo.theqrcode.RecycleViewPage.Contact
 import kotlinx.android.synthetic.main.fragment_q_r_code_list.*
-import kotlinx.android.synthetic.main.fragment_q_r_scanner.*
 import kotlinx.android.synthetic.main.url_string_layout.view.*
 
 
@@ -30,6 +31,7 @@ class QRCodeListFragment : Fragment() {
 
     private var param1: String? = null
     private var param2: String? = null
+    private val str = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +52,9 @@ class QRCodeListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+
         val contacts = listOf<Contact>(
-            Contact("https//:google.com"),
-            Contact("https//:google.com")
+            Contact("")
         )
 
         recycler.setHasFixedSize(true)
@@ -83,6 +85,8 @@ class QRCodeListFragment : Fragment() {
         val url: TextView = view.saving_url
         val btnBrowser: ImageButton = view.browser
     }
+
+
 
     companion object {
 
