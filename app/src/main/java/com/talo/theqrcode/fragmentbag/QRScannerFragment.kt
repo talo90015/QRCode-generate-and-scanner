@@ -52,10 +52,12 @@ class QRScannerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_q_r_scanner, container, false)
     }
 
-        private var savingUrl = 0
+    private var savingUrl = 0
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -81,14 +83,11 @@ class QRScannerFragment : Fragment() {
                     if (txt_url.text != ""){
                         btn_url.visibility = View.VISIBLE
                         btn_add.visibility = View.VISIBLE
-
-                        btn_add.setOnClickListener {
-                            //儲存網址
-                            savingUrl++
-                            saveUrl()
-                            Toast.makeText(activity, "Saving Url", Toast.LENGTH_SHORT).show()
-                        }
-
+                    }
+                    btn_add.setOnClickListener {
+                        //儲存網址
+                        saveUrl()
+                        Toast.makeText(activity, "Saving Url", Toast.LENGTH_SHORT).show()
                     }
                     btn_url.setOnClickListener {
                         val url = Uri.parse(txt_url.text.toString())
@@ -130,7 +129,11 @@ class QRScannerFragment : Fragment() {
             CAMERA_REQUEST_CODE)
     }
     private fun saveUrl(){
-        when (savingUrl) {
+        savingUrl++
+        var num = activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
+            .getInt("url_number", 0)
+
+        when (num) {
             1 -> {
                 activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
                     .edit()
@@ -154,6 +157,9 @@ class QRScannerFragment : Fragment() {
                     .edit()
                     .putString("url_4", txt_url.text.toString())
                     .apply()
+            }
+            else ->{
+                Toast.makeText(activity, "最多保存4筆記錄", Toast.LENGTH_SHORT).show()
             }
         }
         activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)

@@ -9,5 +9,6 @@
     <string name="output">Output</string>
     <string name="frame">Frame</string>
     <string name="result">Result</string>
+    <string name="saving">Save URL</string>
 
 </resources>
