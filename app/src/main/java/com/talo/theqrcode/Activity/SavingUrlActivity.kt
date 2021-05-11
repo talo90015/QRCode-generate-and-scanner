@@ -63,9 +63,7 @@ class SavingUrlActivity : AppCompatActivity() {
             override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
                 holder.url.text = contacts[position].urlStr
                 holder.browser.setOnClickListener {
-                    val uri = Uri.parse(saving_url.toString())
-
-                    //TODO 需要改善閃退問題
+                    val uri = Uri.parse(holder.url.text.toString())
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)
                 }
