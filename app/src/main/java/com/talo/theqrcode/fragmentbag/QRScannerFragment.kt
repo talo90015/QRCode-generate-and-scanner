@@ -131,7 +131,7 @@ class QRScannerFragment : Fragment() {
     private fun saveUrl(){
         savingUrl++
         var num = activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
-            .getInt("url_number", 0)
+            .getInt("url_number", savingUrl)
 
         when (num) {
             1 -> {

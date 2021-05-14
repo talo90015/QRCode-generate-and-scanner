@@ -2,6 +2,7 @@ package com.talo.theqrcode.Activity
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,13 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.talo.theqrcode.R
 import com.talo.theqrcode.RecycleViewPage.Contact
 import com.talo.theqrcode.databinding.ActivitySavingUrlBinding
-import kotlinx.android.synthetic.main.activity_saving_url.*
-import kotlinx.android.synthetic.main.url_string_layout.*
 import kotlinx.android.synthetic.main.url_string_layout.view.*
 
 class SavingUrlActivity : AppCompatActivity() {
@@ -36,6 +36,7 @@ class SavingUrlActivity : AppCompatActivity() {
         binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager = LinearLayoutManager(this)
         theList()
+
     }
 
     private fun theList() {
@@ -67,6 +68,17 @@ class SavingUrlActivity : AppCompatActivity() {
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)
                 }
+                holder.clearText.setOnClickListener {
+                    var num = getSharedPreferences("save", Context.MODE_PRIVATE)
+                        .getInt("url_number", 0)
+                    holder.url.text = ""
+                    Toast.makeText(this@SavingUrlActivity, "Clear Saving Data", Toast.LENGTH_SHORT).show()
+                    num--
+                    getSharedPreferences("save", Context.MODE_PRIVATE)
+                        .edit()
+                        .putInt("url_number", num)
+                        .apply()
+                }
             }
 
             override fun getItemCount(): Int {
@@ -86,5 +98,6 @@ class SavingUrlActivity : AppCompatActivity() {
     class ContactViewHolder(view: View): RecyclerView.ViewHolder(view){
         val url: TextView = view.saving_url
         val browser: ImageButton = view.browser
+        val clearText: ImageButton = view.clear_text
     }
 }
