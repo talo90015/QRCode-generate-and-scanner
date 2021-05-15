@@ -56,7 +56,7 @@ class QRScannerFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_q_r_scanner, container, false)
     }
 
-    private var savingUrl = 0
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -82,17 +82,17 @@ class QRScannerFragment : Fragment() {
                     txt_url.text = it.text
                     if (txt_url.text != ""){
                         btn_url.visibility = View.VISIBLE
-                        btn_add.visibility = View.VISIBLE
-                    }
-                    btn_add.setOnClickListener {
-                        //儲存網址
-                        saveUrl()
-                        Toast.makeText(activity, "Saving Url", Toast.LENGTH_SHORT).show()
+
                     }
                     btn_url.setOnClickListener {
                         val url = Uri.parse(txt_url.text.toString())
                         val intent = Intent(Intent.ACTION_VIEW, url)
                         startActivity(intent)
+                        activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
+                            .edit()
+                            .putString("saveUrl", url.toString())
+                            .apply()
+
                     }
                 }
             }
@@ -127,45 +127,6 @@ class QRScannerFragment : Fragment() {
         ActivityCompat.requestPermissions(activity!!,
             arrayOf(android.Manifest.permission.CAMERA),
             CAMERA_REQUEST_CODE)
-    }
-    private fun saveUrl(){
-        savingUrl++
-        var num = activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
-            .getInt("url_number", savingUrl)
-
-        when (num) {
-            1 -> {
-                activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
-                    .edit()
-                    .putString("url_1", txt_url.text.toString())
-                    .apply()
-            }
-            2 -> {
-                activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
-                    .edit()
-                    .putString("url_2", txt_url.text.toString())
-                    .apply()
-            }
-            3 -> {
-                activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
-                    .edit()
-                    .putString("url_3", txt_url.text.toString())
-                    .apply()
-            }
-            4 -> {
-                activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
-                    .edit()
-                    .putString("url_4", txt_url.text.toString())
-                    .apply()
-            }
-            else ->{
-                Toast.makeText(activity, "最多保存4筆記錄", Toast.LENGTH_SHORT).show()
-            }
-        }
-        activity!!.getSharedPreferences("save", Context.MODE_PRIVATE)
-            .edit()
-            .putInt("url_number", savingUrl)
-            .apply()
     }
 
     override fun onRequestPermissionsResult(

@@ -25,7 +25,6 @@
             android:textAlignment="center"/>
         <ImageButton
             android:id="@+id/clear_text"
-            android:layout_weight="0.01"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_baseline_clear_24"
@@ -34,7 +33,6 @@
             android:layout_marginRight="5dp"/>
         <ImageButton
             android:id="@+id/browser"
-            android:layout_weight="0.01"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_public_black_24dp"

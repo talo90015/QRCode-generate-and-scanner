@@ -10,5 +10,7 @@
     <string name="frame">Frame</string>
     <string name="result">Result</string>
     <string name="saving">Save URL</string>
+    <string name="go">Go</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

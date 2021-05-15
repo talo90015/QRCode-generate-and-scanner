@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_qr_code_scanner_black_24dp"
         />
     <item android:id="@+id/url_list"
-        android:title="URL List"
+        android:title="Last Record"
         android:icon="@drawable/ic_link_black_24dp"
         app:showAsAction="never" />
 

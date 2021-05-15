@@ -6,6 +6,7 @@ import android.media.Image
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +36,9 @@ class SavingUrlActivity : AppCompatActivity() {
 
         binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager = LinearLayoutManager(this)
-        theList()
 
+        theList()
+        Log.d("tag", "0")
     }
 
     private fun theList() {
@@ -48,6 +50,7 @@ class SavingUrlActivity : AppCompatActivity() {
             .getString("url_3", "")
         val url_4 = getSharedPreferences("save", Context.MODE_PRIVATE)
             .getString("url_4", "")
+        Log.d("tag", url_1.toString())
 
         val contacts = listOf<Contact>(
             Contact(url_1.toString()),
@@ -73,11 +76,42 @@ class SavingUrlActivity : AppCompatActivity() {
                         .getInt("url_number", 0)
                     holder.url.text = ""
                     Toast.makeText(this@SavingUrlActivity, "Clear Saving Data", Toast.LENGTH_SHORT).show()
-                    num--
+                    when(num){
+                        1 -> {
+                            getSharedPreferences("save", Context.MODE_PRIVATE)
+                                .edit()
+                                .putString("url_1", "")
+                                .apply()
+                            num--
+                        }
+                        2 -> {
+                            getSharedPreferences("save", Context.MODE_PRIVATE)
+                                .edit()
+                                .putString("url_2", "")
+                                .apply()
+                            num--
+                        }
+                        3 -> {
+                            getSharedPreferences("save", Context.MODE_PRIVATE)
+                                .edit()
+                                .putString("url_3", "")
+                                .apply()
+                            num--
+                        }
+                        4 -> {
+                            getSharedPreferences("save", Context.MODE_PRIVATE)
+                                .edit()
+                                .putString("url_4", "")
+                                .apply()
+                            num--
+                        }
+                    }
+
                     getSharedPreferences("save", Context.MODE_PRIVATE)
                         .edit()
                         .putInt("url_number", num)
                         .apply()
+
                 }
             }
 

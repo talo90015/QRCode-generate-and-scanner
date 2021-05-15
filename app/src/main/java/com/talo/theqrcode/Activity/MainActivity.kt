@@ -1,6 +1,9 @@
 package com.talo.theqrcode.Activity
 
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +15,7 @@ import com.talo.theqrcode.fragmentbag.QRGenerateFragment
 import com.talo.theqrcode.fragmentbag.QRScannerFragment
 import com.talo.theqrcode.pageAdapter.Page
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.lest_record_url.*
 import java.lang.reflect.Method
 
 
@@ -69,8 +73,27 @@ class MainActivity : AppCompatActivity() {
                     viewPager.currentItem = 1
                 }
                 R.id.url_list ->{
-                    val intent = Intent(this, SavingUrlActivity::class.java)
-                    startActivity(intent)
+                    val dialog = Dialog(this@MainActivity)
+                    dialog.setCancelable(false)
+                    dialog.setContentView(R.layout.lest_record_url)
+                    val txtLestUrl = dialog.txt_lest_url
+                    val btnCancel = dialog.btn_cancel
+                    val btnGoToUrl = dialog.btn_browser
+
+                    val url = getSharedPreferences("save", Context.MODE_PRIVATE)
+                        .getString("saveUrl", "")
+                    txtLestUrl.text = "  $url  "
+
+                    btnCancel.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    btnGoToUrl.setOnClickListener {
+                        val goUrl = Uri.parse(txtLestUrl.text.toString())
+                        val intent = Intent(Intent.ACTION_VIEW, goUrl)
+                        startActivity(intent)
+                        dialog.dismiss()
+                    }
+                    dialog.show()
                 }
             }
             false
@@ -85,18 +108,16 @@ class MainActivity : AppCompatActivity() {
     //重新複寫Menu方法
     //鏡像映射Icon使其能顯示
     override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
-        if (menu != null) {
-            if (menu.javaClass == MenuBuilder::class.java) {
-                try {
-                    val method: Method = menu.javaClass.getDeclaredMethod(
-                        "setOptionalIconsVisible",
-                        java.lang.Boolean.TYPE
-                    )
-                    method.isAccessible = true
-                    method.invoke(menu, true)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+        if (menu.javaClass == MenuBuilder::class.java) {
+            try {
+                val method: Method = menu.javaClass.getDeclaredMethod(
+                    "setOptionalIconsVisible",
+                    java.lang.Boolean.TYPE
+                )
+                method.isAccessible = true
+                method.invoke(menu, true)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
         return super.onMenuOpened(featureId, menu)
