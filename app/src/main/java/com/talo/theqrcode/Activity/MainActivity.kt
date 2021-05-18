@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -88,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         dialog.dismiss()
                     }
                     btnGoToUrl.setOnClickListener {
-                        val goUrl = Uri.parse(txtLestUrl.text.toString())
+                        val goUrl = Uri.parse(url)
                         val intent = Intent(Intent.ACTION_VIEW, goUrl)
                         startActivity(intent)
                         dialog.dismiss()
