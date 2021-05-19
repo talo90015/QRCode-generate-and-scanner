@@ -1,16 +1,16 @@
 package com.talo.theqrcode.fragmentbag
 
 import android.app.Dialog
+import android.content.DialogInterface
+import android.content.DialogInterface.OnClickListener
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.google.android.material.button.MaterialButton
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
@@ -18,6 +18,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.talo.theqrcode.R
 import kotlinx.android.synthetic.main.color_choose.*
 import kotlinx.android.synthetic.main.fragment_q_r_generate.*
+import java.util.*
 
 
 /**
@@ -33,6 +34,7 @@ class QRGenerateFragment : Fragment(){
     private var param1: String? = null
     private var param2: String? = null
 
+    private var imgId = intArrayOf(R.drawable.the_qr_code)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,23 +55,25 @@ class QRGenerateFragment : Fragment(){
         return inflater.inflate(R.layout.fragment_q_r_generate, null)
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         btn_output_url.setOnClickListener { btnOutputUrl() }
-        btn_choose_color.setOnClickListener { btnChooseColor() }
+        img_QR.setOnLongClickListener { imgQRLongClick() }
+        img_QR.setImageResource(imgId[0])
     }
 
-    private fun btnChooseColor() {
-        val dialog = Dialog(activity!!)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.color_choose)
+    private fun imgQRLongClick() : Boolean{
+        AlertDialog.Builder(activity!!)
+            .setTitle(R.string.qrcode)
+            .setMessage("保存生成QRCode")
+            .setPositiveButton("確定"){_, _ ->
+                //TODO 下載功能實作 https://www.youtube.com/watch?v=FcCtT1C7NGI 4:50
+            }
+            .show()
+        return true
 
-        dialog.btn_close.setOnClickListener {
-
-            dialog.dismiss()
-        }
-        dialog.show()
     }
 
 
