@@ -1,15 +1,22 @@
 package com.talo.theqrcode.fragmentbag
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.DialogInterface.OnClickListener
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -18,7 +25,12 @@ import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.talo.theqrcode.R
 import kotlinx.android.synthetic.main.color_choose.*
 import kotlinx.android.synthetic.main.fragment_q_r_generate.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.lang.Exception
 import java.util.*
+import java.util.jar.Manifest
 
 
 /**
@@ -35,6 +47,7 @@ class QRGenerateFragment : Fragment(){
     private var param2: String? = null
 
     private var imgId = intArrayOf(R.drawable.the_qr_code)
+    private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,20 +75,78 @@ class QRGenerateFragment : Fragment(){
         btn_output_url.setOnClickListener { btnOutputUrl() }
         img_QR.setOnLongClickListener { imgQRLongClick() }
         img_QR.setImageResource(imgId[0])
+        activity!!.getSharedPreferences("save_number", Context.MODE_PRIVATE)
+            .getInt("image_num", 0)
+
     }
 
     private fun imgQRLongClick() : Boolean{
         AlertDialog.Builder(activity!!)
             .setTitle(R.string.qrcode)
             .setMessage("保存生成QRCode")
+            .setNegativeButton("取消", null)
             .setPositiveButton("確定"){_, _ ->
-                //TODO 下載功能實作 https://www.youtube.com/watch?v=FcCtT1C7NGI 4:50
+                Toast.makeText(activity, "保存 QRCode 中...",Toast.LENGTH_SHORT).show()
+                saveQRCode()
             }
             .show()
         return true
 
     }
 
+    private fun saveQRCode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (ContextCompat.checkSelfPermission(activity!!,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(activity!!, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+            }else{
+                saveQRCodeImage()
+            }
+        }else{
+            saveQRCodeImage()
+        }
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == 100){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(activity, "You need the File permission",Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun saveQRCodeImage(){
+        val externalStorageState = Environment.getExternalStorageState()
+        if (externalStorageState == Environment.MEDIA_MOUNTED){
+            val storageDirectory = Environment.getExternalStorageDirectory().toString()
+            count++
+            val file = File(storageDirectory, "${count}_QRCode.jpg")
+            try {
+                val stream: OutputStream = FileOutputStream(file)
+                val editStr = input_url.text.toString()
+                val writer = MultiFormatWriter()
+                val matrix: BitMatrix = writer.encode(editStr, BarcodeFormat.QR_CODE, 500, 500)
+                val encode = BarcodeEncoder()
+                val bitmap: Bitmap = encode.createBitmap(matrix)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                stream.flush()
+                stream.close()
+                Toast.makeText(activity, "保存",Toast.LENGTH_SHORT).show()
+                activity!!.getSharedPreferences("save_number", Context.MODE_PRIVATE)
+                    .edit()
+                    .putInt("image_num", count)
+                    .apply()
+            }catch (e : Exception){
+
+            }
+        }else{
+            Toast.makeText(activity, "Unable to access the storage",Toast.LENGTH_SHORT).show()
+        }
+    }
 
     private fun btnOutputUrl() {
         val editStr = input_url.text.toString()
