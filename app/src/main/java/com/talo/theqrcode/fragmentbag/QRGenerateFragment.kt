@@ -1,15 +1,12 @@
 package com.talo.theqrcode.fragmentbag
 
-import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.DialogInterface.OnClickListener
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,9 +25,7 @@ import kotlinx.android.synthetic.main.fragment_q_r_generate.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.lang.Exception
 import java.util.*
-import java.util.jar.Manifest
 
 
 /**
@@ -73,6 +68,7 @@ class QRGenerateFragment : Fragment(){
         super.onActivityCreated(savedInstanceState)
 
         btn_output_url.setOnClickListener { btnOutputUrl() }
+        btn_info.setOnClickListener { btnInfoClick() }
         img_QR.setOnLongClickListener { imgQRLongClick() }
         img_QR.setImageResource(imgId[0])
         activity!!.getSharedPreferences("save_number", Context.MODE_PRIVATE)
@@ -80,13 +76,26 @@ class QRGenerateFragment : Fragment(){
 
     }
 
+    private fun btnInfoClick() {
+        val inflater = layoutInflater
+        val view: View = inflater.inflate(
+            R.layout.toast_info,
+            view?.findViewById(R.id.toast_info) as ViewGroup?
+        )
+        val toast = Toast(activity)
+        toast.setGravity(Gravity.BOTTOM, 0, 0)
+        toast.duration = Toast.LENGTH_SHORT
+        toast.view = view
+        toast.show()
+    }
+
     private fun imgQRLongClick() : Boolean{
         AlertDialog.Builder(activity!!)
             .setTitle(R.string.qrcode)
             .setMessage("保存生成QRCode")
             .setNegativeButton("取消", null)
-            .setPositiveButton("確定"){_, _ ->
-                Toast.makeText(activity, "保存 QRCode 中...",Toast.LENGTH_SHORT).show()
+            .setPositiveButton("確定"){ _, _ ->
+                Toast.makeText(activity, "保存 QRCode 中...", Toast.LENGTH_SHORT).show()
                 saveQRCode()
             }
             .show()
@@ -96,9 +105,15 @@ class QRGenerateFragment : Fragment(){
 
     private fun saveQRCode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if (ContextCompat.checkSelfPermission(activity!!,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(activity!!, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+            if (ContextCompat.checkSelfPermission(
+                    activity!!,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(
+                    activity!!,
+                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    100
+                )
             }else{
                 saveQRCodeImage()
             }
@@ -115,7 +130,7 @@ class QRGenerateFragment : Fragment(){
     ) {
         if (requestCode == 100){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(activity, "You need the File permission",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "You need the File permission", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -135,16 +150,16 @@ class QRGenerateFragment : Fragment(){
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                 stream.flush()
                 stream.close()
-                Toast.makeText(activity, "保存",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "保存", Toast.LENGTH_SHORT).show()
                 activity!!.getSharedPreferences("save_number", Context.MODE_PRIVATE)
                     .edit()
                     .putInt("image_num", count)
                     .apply()
-            }catch (e : Exception){
+            }catch (e: Exception){
 
             }
         }else{
-            Toast.makeText(activity, "Unable to access the storage",Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Unable to access the storage", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -158,8 +173,8 @@ class QRGenerateFragment : Fragment(){
             val encode = BarcodeEncoder()
             val bitmap: Bitmap = encode.createBitmap(matrix)
             img_QR.setImageBitmap(bitmap)
-
-
+            btn_info.visibility = View.VISIBLE
+            info_card.visibility = View.VISIBLE
         }
     }
 
