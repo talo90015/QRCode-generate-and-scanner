@@ -52,6 +52,14 @@ class MainActivity : AppCompatActivity() {
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
+                when(position){
+                    0 -> {
+                        binding.toolbar.title = getString(R.string.qr_code_generate)
+                    }
+                    1 -> {
+                        binding.toolbar.title = getString(R.string.qr_code_scanner)
+                    }
+                }
             }
 
             override fun onPageSelected(position: Int) {
@@ -69,9 +77,11 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.qr_generate -> {
                     viewPager.currentItem = 0
+                    binding.toolbar.title = getString(R.string.qr_code_generate)
                 }
                 R.id.qr_scanner -> {
                     viewPager.currentItem = 1
+                    binding.toolbar.title = getString(R.string.qr_code_scanner)
                 }
                 R.id.url_list ->{
                     val dialog = Dialog(this@MainActivity)

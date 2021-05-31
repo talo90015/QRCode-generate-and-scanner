@@ -2,7 +2,7 @@
     <string name="app_name">theQRCode</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello sc fragment</string>
-    <string name="qrcode">QRCode</string>
+    <string name="qrcode">QR Code</string>
     <string name="url_example">https://www.google.com</string>
     <string name="url">URL</string>
     <string name="input_text">Please input URL</string>
@@ -13,6 +13,8 @@
     <string name="go">Go</string>
     <string name="cancel">Cancel</string>
     <string name="info">Info</string>
+    <string name="qr_code_generate">QR Code&#160;產生</string>
+    <string name="qr_code_scanner">QR Code&#160;掃描</string>
 
 
 </resources>

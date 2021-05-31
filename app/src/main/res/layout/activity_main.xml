@@ -19,18 +19,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
+        app:title="@string/qr_code_generate"
+        app:titleTextAppearance="@style/Toolbar_title"
         android:theme="@style/Theme.MaterialComponents.NoActionBar"
         app:popupTheme="@style/Theme.MaterialComponents.Light.NoActionBar">
 
-        <TextView
-            android:id="@+id/unit_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/qrcode"
-            android:background="#084C0B"
-            android:textColor="@android:color/white"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:id="@+id/unit_title"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/qrcode"-->
+<!--            android:background="#084C0B"-->
+<!--            android:textColor="@android:color/white"-->
+<!--            android:textSize="28sp"-->
+<!--            android:textStyle="bold" />-->
 
     </androidx.appcompat.widget.Toolbar>
 
